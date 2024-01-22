@@ -1,5 +1,5 @@
 import './App.css';
-import { Hello } from '@app/hello';
+import { Hello } from '@src/app/Hello';
 
 function App() {
   return (
