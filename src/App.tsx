@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 50px;
+  height: 100vh;
 `;
 
 export default App;
