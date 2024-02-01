@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import styled from 'styled-components';
 
 type FormData = {
@@ -17,7 +17,7 @@ export default function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  const onSubmit = (data: FormData) => console.log('data', data);
+  const onSubmit: SubmitHandler<FormData> = (data) => console.log('data', data);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
