@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Hello = () => <Title>hello</Title>;
+export const Hello = () => <Title>Live Demo</Title>;
 
 const Title = styled.div`
   font-size: 1.5em;

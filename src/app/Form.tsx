@@ -1,33 +1,101 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
 
-type Inputs = {
-  example: string;
-  exampleRequired: string;
+type FormData = {
+  title: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  mobileNumber: string;
+  developer: string;
 };
 
-export default function Form() {
+export default function App() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-
-  console.log(watch('example')); // watch input value by passing the name of it
+  } = useForm<FormData>();
+  const onSubmit = (data: FormData) => console.log(data);
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* register your input into the hook by invoking the "register" function */}
-      <input defaultValue="test" {...register('example')} />
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        placeholder="First Name"
+        {...register('firstName', { required: true, minLength: 1 })}
+      />
 
-      {/* include validation with required or other standard HTML validation rules */}
-      <input {...register('exampleRequired', { required: true })} />
-      {/* errors will return when field validation fails  */}
-      {errors.exampleRequired && <span>This field is required</span>}
+      <Input
+        placeholder="Last Name"
+        {...register('lastName', { required: true, minLength: 1 })}
+      />
+
+      <Input
+        placeholder="Email"
+        type="email"
+        {...register('email', { required: true })}
+      />
+
+      <Input
+        placeholder="Mobile Number"
+        type="tel"
+        {...register('mobileNumber', {
+          required: true,
+          minLength: 10,
+          maxLength: 15,
+        })}
+      />
+
+      <Select {...register('title', { required: true })}>
+        <option value="">Select...</option>
+        <option value="Mr">Mr</option>
+        <option value="Mrs">Mrs</option>
+        <option value="Miss">Miss</option>
+        <option value="Dr">Dr</option>
+      </Select>
+
+      <LabelBox>
+        <label>
+          <input
+            type="radio"
+            value="Yes"
+            {...register('developer', { required: true })}
+          />
+          Yes
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="No"
+            {...register('developer', { required: true })}
+          />
+          No
+        </label>
+      </LabelBox>
 
       <input type="submit" />
-    </form>
+    </Form>
   );
 }
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const LabelBox = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const Input = styled.input`
+  padding: 6px 10px;
+  border-radius: 4px;
+`;
+
+const Select = styled.select`
+  padding: 6px 10px;
+  border-radius: 4px;
+`;
