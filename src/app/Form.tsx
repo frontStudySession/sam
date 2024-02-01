@@ -148,6 +148,7 @@ const Input = styled.input<{ $error?: boolean }>`
   padding: 6px 10px;
   border-radius: 4px;
   background-color: ${(props) => (props.$error ? 'pink' : 'white')};
+  transition: background-color 0.2s ease-in;
 `;
 
 const Select = styled.select`
