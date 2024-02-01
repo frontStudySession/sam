@@ -34,7 +34,10 @@ export default function App() {
       <Input
         placeholder="Email"
         type="email"
-        {...register('email', { required: true })}
+        {...register('email', {
+          required: true,
+          pattern: /^[A-z0-9]{2,20}@[A-z]{2,20}\.[a-z]{2,3}$/,
+        })}
       />
 
       <Input
@@ -42,8 +45,8 @@ export default function App() {
         type="tel"
         {...register('mobileNumber', {
           required: true,
-          minLength: 10,
-          maxLength: 15,
+          pattern: /^[0-9]{11}$/,
+          minLength: 11,
         })}
       />
 
