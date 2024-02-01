@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, Resolver, SubmitHandler } from 'react-hook-form';
 import styled from 'styled-components';
 
 type FormData = {
@@ -11,47 +11,92 @@ type FormData = {
   developer: string;
 };
 
+const resolver: Resolver<FormData> = async (values) => {
+  let errors = {};
+
+  if (!values.firstName || values.firstName.length < 1) {
+    errors = {
+      ...errors,
+      firstName: {
+        type: 'required',
+      },
+    };
+  }
+
+  if (!values.lastName || values.lastName.length < 1) {
+    errors = {
+      ...errors,
+      lastName: {
+        type: 'required',
+      },
+    };
+  }
+
+  if (
+    !values.email ||
+    !/^[A-z0-9]{2,20}@[A-z]{2,20}\.[a-z]{2,3}$/.test(values.email)
+  ) {
+    errors = {
+      ...errors,
+      email: {
+        type: 'required',
+      },
+    };
+  }
+
+  if (
+    !values.mobileNumber ||
+    !/^[0-9]{11}$/.test(values.mobileNumber) ||
+    values.mobileNumber.length > 11
+  ) {
+    errors = {
+      ...errors,
+      mobileNumber: {
+        type: 'required',
+      },
+    };
+  }
+
+  return {
+    values: Object.keys(errors).length ? {} : values,
+    errors,
+  };
+};
+
 export default function App() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({ resolver });
   const onSubmit: SubmitHandler<FormData> = (data) => console.log('data', data);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
-        $error={Boolean(errors.firstName)}
+        $error={Boolean(errors?.firstName)}
         placeholder="First Name"
-        {...register('firstName', { required: true, minLength: 1 })}
+        {...register('firstName')}
       />
 
       <Input
-        $error={Boolean(errors.lastName)}
+        $error={Boolean(errors?.lastName)}
         placeholder="Last Name"
-        {...register('lastName', { required: true, minLength: 1 })}
+        {...register('lastName')}
       />
 
       <Input
-        $error={Boolean(errors.email)}
+        $error={Boolean(errors?.email)}
         placeholder="Email"
         type="email"
-        {...register('email', {
-          required: true,
-          pattern: /^[A-z0-9]{2,20}@[A-z]{2,20}\.[a-z]{2,3}$/,
-        })}
+        {...register('email')}
       />
 
       <Input
-        $error={Boolean(errors.mobileNumber)}
+        $error={Boolean(errors?.mobileNumber)}
         placeholder="Mobile Number"
         type="tel"
-        {...register('mobileNumber', {
-          required: true,
-          pattern: /^[0-9]{11}$/,
-          minLength: 11,
-        })}
+        {...register('mobileNumber')}
       />
 
       <Select {...register('title', { required: true })}>
