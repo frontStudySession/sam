@@ -17,24 +17,24 @@ export default function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = (data: FormData) => console.log('data', data);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
-        error={!!errors.firstName}
+        error={Boolean(errors.firstName)}
         placeholder="First Name"
         {...register('firstName', { required: true, minLength: 1 })}
       />
 
       <Input
-        error={!!errors.lastName}
+        error={Boolean(errors.lastName)}
         placeholder="Last Name"
         {...register('lastName', { required: true, minLength: 1 })}
       />
 
       <Input
-        error={!!errors.email}
+        error={Boolean(errors.email)}
         placeholder="Email"
         type="email"
         {...register('email', {
@@ -44,7 +44,7 @@ export default function App() {
       />
 
       <Input
-        error={!!errors.mobileNumber}
+        error={Boolean(errors.mobileNumber)}
         placeholder="Mobile Number"
         type="tel"
         {...register('mobileNumber', {
