@@ -1,15 +1,7 @@
 import React from 'react';
 import { useForm, Resolver, SubmitHandler } from 'react-hook-form';
+import { FormData } from '@app/types';
 import styled from 'styled-components';
-
-type FormData = {
-  title: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobileNumber: string;
-  developer: string;
-};
 
 const resolver: Resolver<FormData> = async (values) => {
   let errors = {};
