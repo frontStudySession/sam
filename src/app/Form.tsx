@@ -55,7 +55,7 @@ const resolver: Resolver<FormData> = async (values) => {
   };
 };
 
-export default function App() {
+export const FormComp = () => {
   const {
     register,
     handleSubmit,
@@ -121,7 +121,7 @@ export default function App() {
       <Input type="submit" />
     </Form>
   );
-}
+};
 
 const Form = styled.form`
   display: flex;

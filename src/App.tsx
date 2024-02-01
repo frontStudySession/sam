@@ -1,13 +1,13 @@
 import './App.css';
 import { Hello } from '@app/app/Hello';
-import Form from '@app/app/Form';
+import { FormComp } from '@app/app/Form';
 import styled from 'styled-components';
 
 function App() {
   return (
     <Wrapper className="App">
       <Hello />
-      <Form />
+      <FormComp />
     </Wrapper>
   );
 }
