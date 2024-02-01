@@ -22,19 +22,19 @@ export default function App() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
-        error={Boolean(errors.firstName)}
+        $error={Boolean(errors.firstName)}
         placeholder="First Name"
         {...register('firstName', { required: true, minLength: 1 })}
       />
 
       <Input
-        error={Boolean(errors.lastName)}
+        $error={Boolean(errors.lastName)}
         placeholder="Last Name"
         {...register('lastName', { required: true, minLength: 1 })}
       />
 
       <Input
-        error={Boolean(errors.email)}
+        $error={Boolean(errors.email)}
         placeholder="Email"
         type="email"
         {...register('email', {
@@ -44,7 +44,7 @@ export default function App() {
       />
 
       <Input
-        error={Boolean(errors.mobileNumber)}
+        $error={Boolean(errors.mobileNumber)}
         placeholder="Mobile Number"
         type="tel"
         {...register('mobileNumber', {
@@ -81,7 +81,7 @@ export default function App() {
         </label>
       </LabelBox>
 
-      <Input error={false} type="submit" />
+      <Input type="submit" />
     </Form>
   );
 }
@@ -99,10 +99,10 @@ const LabelBox = styled.div`
   gap: 30px;
 `;
 
-const Input = styled.input<{ error: boolean }>`
+const Input = styled.input<{ $error?: boolean }>`
   padding: 6px 10px;
   border-radius: 4px;
-  background-color: ${(props) => (props.error ? 'pink' : 'white')};
+  background-color: ${(props) => (props.$error ? 'pink' : 'white')};
 `;
 
 const Select = styled.select`
