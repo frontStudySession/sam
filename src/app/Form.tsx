@@ -77,7 +77,7 @@ export default function App() {
         </label>
       </LabelBox>
 
-      <input type="submit" />
+      <Input type="submit" />
     </Form>
   );
 }
@@ -85,12 +85,14 @@ export default function App() {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
+  width: 100%;
+  max-width: 600px;
 `;
 
 const LabelBox = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 30px;
 `;
 
 const Input = styled.input`
