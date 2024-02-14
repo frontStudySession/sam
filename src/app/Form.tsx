@@ -2,20 +2,10 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormData } from '@app/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { schema } from '@schema/models/fields';
 import Preview from '@app/app/Preview';
 import FileInput from '@app/app/FileInput';
-import * as z from 'zod';
 import styled from 'styled-components';
-
-const phoneRegex = /^[0-9]{11}$/;
-
-const schema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  email: z.string().email(),
-  mobileNumber: z.string().regex(phoneRegex).min(11),
-  developer: z.string().min(1),
-});
 
 export const FormComp = () => {
   const {
