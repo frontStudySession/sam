@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormData } from '@app/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Preview from '@app/app/Preview';
+import FileInput from '@app/app/FileInput';
 import * as z from 'zod';
 import styled from 'styled-components';
 
@@ -94,20 +95,10 @@ export const FormComp = () => {
         </label>
       </LabelBox>
 
-      <Controller
+      <FileInput
         name="file"
         control={control}
-        render={({ field }) => (
-          <Input
-            type="file"
-            onChange={(e) => {
-              console.log('control', control);
-              field.onChange(e);
-              handleFileChange(e);
-            }}
-            accept=".txt"
-          />
-        )}
+        handleFileChange={handleFileChange}
       />
 
       <Preview text={text} />
