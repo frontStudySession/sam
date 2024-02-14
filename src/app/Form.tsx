@@ -1,59 +1,19 @@
 import React, { useState } from 'react';
-import { useForm, Resolver, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { FormData } from '@app/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import styled from 'styled-components';
 
-const resolver: Resolver<FormData> = async (values) => {
-  let errors = {};
+const phoneRegex = /^[0-9]{11}$/;
 
-  if (!values.firstName || values.firstName.length < 1) {
-    errors = {
-      ...errors,
-      firstName: {
-        type: 'required',
-      },
-    };
-  }
-
-  if (!values.lastName || values.lastName.length < 1) {
-    errors = {
-      ...errors,
-      lastName: {
-        type: 'required',
-      },
-    };
-  }
-
-  if (
-    !values.email ||
-    !/^[A-z0-9]{2,20}@[A-z]{2,20}\.[a-z]{2,3}$/.test(values.email)
-  ) {
-    errors = {
-      ...errors,
-      email: {
-        type: 'required',
-      },
-    };
-  }
-
-  if (
-    !values.mobileNumber ||
-    !/^[0-9]{11}$/.test(values.mobileNumber) ||
-    values.mobileNumber.length > 11
-  ) {
-    errors = {
-      ...errors,
-      mobileNumber: {
-        type: 'required',
-      },
-    };
-  }
-
-  return {
-    values: Object.keys(errors).length ? {} : values,
-    errors,
-  };
-};
+const schema = z.object({
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  email: z.string().email(),
+  mobileNumber: z.string().regex(phoneRegex).min(11),
+  developer: z.string().min(1),
+});
 
 export const FormComp = () => {
   const {
@@ -61,7 +21,7 @@ export const FormComp = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver });
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit: SubmitHandler<FormData> = (data) => console.log('data', data);
 
   const [text, setText] = useState('');
