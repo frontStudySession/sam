@@ -1,5 +1,5 @@
-import React from 'react';
-import { useForm, Resolver, SubmitHandler } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm, Resolver, SubmitHandler, Controller } from 'react-hook-form';
 import { FormData } from '@app/types';
 import styled from 'styled-components';
 
@@ -58,10 +58,25 @@ const resolver: Resolver<FormData> = async (values) => {
 export const FormComp = () => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver });
   const onSubmit: SubmitHandler<FormData> = (data) => console.log('data', data);
+
+  const [text, setText] = useState('');
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        setText(content);
+      };
+      reader.readAsText(file);
+    }
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -118,6 +133,23 @@ export const FormComp = () => {
         </label>
       </LabelBox>
 
+      <Controller
+        name="file"
+        control={control}
+        render={({ field }) => (
+          <Input
+            type="file"
+            onChange={(e) => {
+              field.onChange(e);
+              handleFileChange(e);
+            }}
+            accept=".txt"
+          />
+        )}
+      />
+
+      <TextPreview>{text}</TextPreview>
+
       <Input type="submit" />
     </Form>
   );
@@ -146,4 +178,10 @@ const Input = styled.input<{ $error?: boolean }>`
 const Select = styled.select`
   padding: 6px 10px;
   border-radius: 4px;
+`;
+
+const TextPreview = styled.div`
+  padding: 6px 10px;
+  border-radius: 4px;
+  background-color: #f5f5f5;
 `;

@@ -1,12 +1,12 @@
 import './App.css';
-import { Hello } from '@app/app/Hello';
+import { Title } from '@app/app/Title';
 import { FormComp } from '@app/app/Form';
 import styled from 'styled-components';
 
 function App() {
   return (
     <Wrapper className="App">
-      <Hello />
+      <Title />
       <FormComp />
     </Wrapper>
   );
