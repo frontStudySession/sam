@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { FormData } from '@app/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Preview from '@app/app/Preview';
 import * as z from 'zod';
 import styled from 'styled-components';
 
@@ -36,11 +37,6 @@ export const FormComp = () => {
         setText(content);
       };
     }
-  };
-
-  const Preview = () => {
-    if (text) return <TextPreview>{text}</TextPreview>;
-    return null;
   };
 
   return (
@@ -114,7 +110,7 @@ export const FormComp = () => {
         )}
       />
 
-      <Preview />
+      <Preview text={text} />
 
       <Input type="submit" />
     </Form>
@@ -144,10 +140,4 @@ const Input = styled.input<{ $error?: boolean }>`
 const Select = styled.select`
   padding: 6px 10px;
   border-radius: 4px;
-`;
-
-const TextPreview = styled.div`
-  padding: 6px 10px;
-  border-radius: 4px;
-  background-color: #f5f5f5;
 `;
