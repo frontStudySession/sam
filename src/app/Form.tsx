@@ -70,12 +70,17 @@ export const FormComp = () => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
+      reader.readAsText(file);
       reader.onload = (e) => {
         const content = (e.target?.result as string) || 'file empty';
         setText(content);
       };
-      reader.readAsText(file);
     }
+  };
+
+  const Preview = () => {
+    if (text) return <TextPreview>{text}</TextPreview>;
+    return null;
   };
 
   return (
@@ -140,6 +145,7 @@ export const FormComp = () => {
           <Input
             type="file"
             onChange={(e) => {
+              console.log('control', control);
               field.onChange(e);
               handleFileChange(e);
             }}
@@ -148,7 +154,7 @@ export const FormComp = () => {
         )}
       />
 
-      <TextPreview>{text}</TextPreview>
+      <Preview />
 
       <Input type="submit" />
     </Form>
