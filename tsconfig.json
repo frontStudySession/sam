@@ -4,7 +4,7 @@
     "paths": {
       "@app/*": ["src/*"],
       "@assets/*": ["assets/*"],
-      "@schema/*": ["schema/*"]
+      "@schema/*": ["src/schema/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

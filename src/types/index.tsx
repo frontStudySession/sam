@@ -5,4 +5,5 @@ export interface FormData {
   email: string;
   mobileNumber: string;
   developer: string;
+  file: File | null;
 }

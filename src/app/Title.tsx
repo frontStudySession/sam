@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const Hello = () => <Title>Live Demo</Title>;
+export const Title = () => <FormTitle>Live Demo</FormTitle>;
 
-const Title = styled.div`
+const FormTitle = styled.div`
   font-size: 1.5em;
   text-align: center;
   color: #bf4f74;

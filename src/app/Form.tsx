@@ -1,67 +1,52 @@
-import React from 'react';
-import { useForm, Resolver, SubmitHandler } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormData } from '@app/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { schema } from '@app/schema/models/fields';
+import Preview from '@app/app/Preview';
+import FileInput from '@app/app/FileInput';
 import styled from 'styled-components';
-
-const resolver: Resolver<FormData> = async (values) => {
-  let errors = {};
-
-  if (!values.firstName || values.firstName.length < 1) {
-    errors = {
-      ...errors,
-      firstName: {
-        type: 'required',
-      },
-    };
-  }
-
-  if (!values.lastName || values.lastName.length < 1) {
-    errors = {
-      ...errors,
-      lastName: {
-        type: 'required',
-      },
-    };
-  }
-
-  if (
-    !values.email ||
-    !/^[A-z0-9]{2,20}@[A-z]{2,20}\.[a-z]{2,3}$/.test(values.email)
-  ) {
-    errors = {
-      ...errors,
-      email: {
-        type: 'required',
-      },
-    };
-  }
-
-  if (
-    !values.mobileNumber ||
-    !/^[0-9]{11}$/.test(values.mobileNumber) ||
-    values.mobileNumber.length > 11
-  ) {
-    errors = {
-      ...errors,
-      mobileNumber: {
-        type: 'required',
-      },
-    };
-  }
-
-  return {
-    values: Object.keys(errors).length ? {} : values,
-    errors,
-  };
-};
 
 export const FormComp = () => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      mobileNumber: '',
+      title: '',
+      developer: '',
+      file: null,
+    },
+  });
   const onSubmit: SubmitHandler<FormData> = (data) => console.log('data', data);
+
+  const [text, setText] = useState('');
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const isText = /\.txt$/i.test(file.name);
+      if (!isText) {
+        alert('it takes only .txt extension.');
+        event.target.value = '';
+        setText('');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = (e.target?.result as string) || 'file empty';
+        setText(content);
+      };
+      reader.readAsText(file);
+    }
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -117,6 +102,15 @@ export const FormComp = () => {
           No
         </label>
       </LabelBox>
+
+      <FileInput
+        name="file"
+        accept={'.txt'}
+        control={control}
+        handleFileChange={handleFileChange}
+      />
+
+      <Preview text={text} />
 
       <Input type="submit" />
     </Form>

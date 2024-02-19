@@ -1,0 +1,4 @@
+# eject file
+/scripts
+/config
+/src/react-app-env.d.ts
