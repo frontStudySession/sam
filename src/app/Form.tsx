@@ -22,11 +22,11 @@ export const FormComp = () => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.readAsText(file);
       reader.onload = (e) => {
         const content = (e.target?.result as string) || 'file empty';
         setText(content);
       };
+      reader.readAsText(file);
     }
   };
 
