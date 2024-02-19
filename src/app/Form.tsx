@@ -13,7 +13,18 @@ export const FormComp = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      mobileNumber: '',
+      title: '',
+      developer: '',
+      file: null,
+    },
+  });
   const onSubmit: SubmitHandler<FormData> = (data) => console.log('data', data);
 
   const [text, setText] = useState('');
@@ -21,6 +32,13 @@ export const FormComp = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      const isText = /\.txt$/i.test(file.name);
+      if (!isText) {
+        alert('it takes only .txt extension.');
+        event.target.value = '';
+        setText('');
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = (e.target?.result as string) || 'file empty';
@@ -87,6 +105,7 @@ export const FormComp = () => {
 
       <FileInput
         name="file"
+        accept={'.txt'}
         control={control}
         handleFileChange={handleFileChange}
       />

@@ -4,9 +4,11 @@ import { Controller } from 'react-hook-form';
 const FileInputController = ({
   name,
   control,
+  accept,
   handleFileChange,
 }: {
   name: string;
+  accept: string;
   control: any;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
@@ -22,7 +24,7 @@ const FileInputController = ({
             field.onChange(e);
             handleFileChange(e);
           }}
-          accept=".txt"
+          accept={accept}
         />
       )}
     />
