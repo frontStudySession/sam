@@ -3,8 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormData } from '@app/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema } from '@app/schema/models/fields';
-import Preview from '@app/app/Preview';
-import FileInput from '@app/app/FileInput';
+import Preview from '@app/app/study4/Preview';
+import FileInput from '@app/app/study4/FileInput';
 import styled from 'styled-components';
 
 export const FormComp = () => {

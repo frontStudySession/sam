@@ -1,24 +1,20 @@
-import './App.css';
-import { Title } from '@app/app/Title';
-import { FormComp } from '@app/app/Form';
-import styled from 'styled-components';
+import { Main, About } from '@app/app/study5';
+import Route from '@app/routes/Route';
+import Router from '@app/routes/Router';
 
 function App() {
   return (
-    <Wrapper className="App">
-      <Title />
-      <FormComp />
-    </Wrapper>
+    <Router>
+      <Route
+        path="/"
+        component={<Main />}
+      />
+      <Route
+        path="/about"
+        component={<About />}
+      />
+    </Router>
   );
 }
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-  height: 100vh;
-`;
 
 export default App;
