@@ -1,33 +1,24 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { LocationContext } from '@app/routes/Router';
-
+import { routerContext } from '@app/routes/Router';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 interface RouteProps {
   path: string;
   component: React.ReactElement;
 }
-
 const Route = ({ path, component }: RouteProps) => {
-  const { pathname } = window.location;
+  const { pathname } = useContext(routerContext);
   const [isPath, setIsPath] = useState(false);
-  const { setLocation } = useContext(LocationContext);
 
+  // pathname과 일치하면 해당 컴포넌트 렌더
+  // route 함수 인스턴스 useCallback 으로 메모이제이션
   const route = useCallback(
     (pathname: string) => {
-      if (path === pathname) {
-        setIsPath(true);
-      } else {
-        setIsPath(false);
-      }
-
-      window.onpopstate = () => {
-        setLocation({ pathname });
-      };
+      if (path === pathname) setIsPath(true);
+      else setIsPath(false);
     },
-    [path, setLocation]
+    [path]
   );
 
   useEffect(() => {
-    console.log(pathname);
     route(pathname);
   }, [pathname, route]);
 

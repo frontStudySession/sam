@@ -1,4 +1,4 @@
-export const changeRouter = (pathname: string) => {
-  console.log('?', pathname);
-  return window.history.pushState(null, '', pathname);
-};
+// export const changeRouter = (pathname: string) => {
+//   return window.history.pushState(null, '', pathname);
+// };
+export default {};

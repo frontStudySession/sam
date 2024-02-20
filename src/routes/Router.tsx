@@ -1,36 +1,48 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
-interface LocationContextProps {
-  location: {
-    pathname: string;
-  };
-  setLocation: React.Dispatch<
-    React.SetStateAction<{
-      pathname: string;
-    }>
-  >;
+interface RouterContext {
+  pathname: string;
+  changePath(value: string): void;
 }
 
-export const LocationContext = createContext<LocationContextProps>({
-  location: {
-    pathname: '',
-  },
-  setLocation: () => {
-    console.log('');
-  },
+export const routerContext = createContext<RouterContext>({
+  pathname: '',
+  changePath: () => undefined,
 });
 
-interface RoutesProps {
-  children: React.ReactNode;
-}
+routerContext.displayName = 'RouterContext';
 
-const Router = ({ children }: RoutesProps) => {
-  const [location, setLocation] = useState({ pathname: '/' });
-  console.log(location);
+interface RouterProps {
+  children?: React.ReactNode;
+}
+const Router = ({ children }: RouterProps) => {
+  const [pathname, setPathname] = useState(window.location.pathname);
+
+  const changePath = (path: string) => {
+    setPathname(path);
+    window.history.pushState(null, '', path);
+  };
+
+  // useEffect(() => {
+  //   const handleOnpopstate = (event: PopStateEvent) => {
+  //     setPathname(event.state?.path || '/');
+  //   };
+
+  //   window.addEventListener('popstate', handleOnpopstate);
+  //   return () => {
+  //     window.removeEventListener('popstate', handleOnpopstate);
+  //   };
+  // }, []);
+
+  const contextValue: RouterContext = {
+    pathname,
+    changePath,
+  };
+
   return (
-    <LocationContext.Provider value={{ location, setLocation }}>
+    <routerContext.Provider value={contextValue}>
       {children}
-    </LocationContext.Provider>
+    </routerContext.Provider>
   );
 };
 

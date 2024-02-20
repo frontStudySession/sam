@@ -1,22 +1,27 @@
-import { useRouter } from '@app/hooks/hook';
-import React from 'react';
+import { routerContext } from '@app/routes/Router';
+import React, { MouseEventHandler, useContext } from 'react';
 
 interface LinkProps {
-  children: React.ReactNode;
   to: string;
+  children?: React.ReactNode;
 }
 
-const Link = ({ children, to }: LinkProps) => {
-  const { push } = useRouter();
+const Link: React.FC<LinkProps> = ({ to, children }) => {
+  const { changePath } = useContext(routerContext);
+
+  const handleClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.preventDefault();
+    console.log('link');
+    changePath(to);
+  };
+
   return (
-    <button
-      onClick={(e) => {
-        e.preventDefault();
-        push(to);
-      }}
+    <a
+      href={to}
+      onClick={handleClick}
     >
       {children}
-    </button>
+    </a>
   );
 };
 
