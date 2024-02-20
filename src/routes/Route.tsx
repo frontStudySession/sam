@@ -1,11 +1,11 @@
-import { routerContext } from '@app/routes/Router';
+import { RouterContext } from '@app/routes/Router';
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 interface RouteProps {
   path: string;
   component: React.ReactElement;
 }
 const Route = ({ path, component }: RouteProps) => {
-  const { pathname } = useContext(routerContext);
+  const { pathname } = useContext(RouterContext);
   const [isPath, setIsPath] = useState(false);
 
   // pathname과 일치하면 해당 컴포넌트 렌더

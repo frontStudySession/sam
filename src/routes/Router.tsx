@@ -5,12 +5,10 @@ interface RouterContext {
   changePath(value: string): void;
 }
 
-export const routerContext = createContext<RouterContext>({
+export const RouterContext = createContext<RouterContext>({
   pathname: '',
   changePath: () => undefined,
 });
-
-routerContext.displayName = 'RouterContext';
 
 interface RouterProps {
   children?: React.ReactNode;
@@ -20,19 +18,19 @@ const Router = ({ children }: RouterProps) => {
 
   const changePath = (path: string) => {
     setPathname(path);
-    window.history.pushState(null, '', path);
+    history.pushState(null, '', path);
   };
 
-  // useEffect(() => {
-  //   const handleOnpopstate = (event: PopStateEvent) => {
-  //     setPathname(event.state?.path || '/');
-  //   };
+  useEffect(() => {
+    window.onpopstate = () => {
+      setPathname(window.location.pathname);
+    };
 
-  //   window.addEventListener('popstate', handleOnpopstate);
-  //   return () => {
-  //     window.removeEventListener('popstate', handleOnpopstate);
-  //   };
-  // }, []);
+    // onpopstate 이벤트 핸들러 초기화
+    return () => {
+      window.onpopstate = null;
+    };
+  }, []);
 
   const contextValue: RouterContext = {
     pathname,
@@ -40,9 +38,9 @@ const Router = ({ children }: RouterProps) => {
   };
 
   return (
-    <routerContext.Provider value={contextValue}>
+    <RouterContext.Provider value={contextValue}>
       {children}
-    </routerContext.Provider>
+    </RouterContext.Provider>
   );
 };
 
